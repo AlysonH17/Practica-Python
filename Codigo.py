@@ -19,16 +19,20 @@ def derivacionIzq(gramatica, expresion):
                     if i+2 < len(expresion) and expresion[i+1] in ['+', '-']:
                         if expresion[i+1]=='+':
                             expresion[i:i+3]=['E','+','T']
+                            actual.append(expresion[i:i+3])
                         elif expresion[i+1]=='-':
-                            expresion[i:i+1]=['E','-','T']
+                            expresion[i:i+3]=['E','-','T']
+                            actual.append(expresion[i:i+3])
                     else:
                         actual[i] = 'T'
                 elif simbolo == 'T':
                     if i+2 < len(expresion) and expresion[i+1] in ['*', '/']:
                         if expresion[i+1]=='*':
                             expresion[i:i+3]=['T','*','F']
+                            actual.append(expresion[i:i+3])
                         elif expresion[i+1]=='/':
-                            expresion[i:i+1]=['T','/','F']
+                            expresion[i:i+3]=['T','/','F']
+                            actual.append(expresion[i:i+3])
                     else:
                         actual[i] = 'F'
                 elif simbolo == 'F':

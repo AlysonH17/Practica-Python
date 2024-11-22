@@ -16,13 +16,19 @@ def derivacionIzq(gramatica, expresion):
             if simbolo in ['E', 'T', 'F']:  # si es un no terminal se deriva
                 
                 if simbolo == 'E':
-                    if i+2 < len(actual) and actual[i+1] in ['+', '-']:
-                        actual[i:i+3] = ['T']
+                    if i+2 < len(expresion) and expresion[i+1] in ['+', '-']:
+                        if expresion[i+1]=='+':
+                            expresion[i:i+3]=['E','+','T']
+                        elif expresion[i+1]=='-':
+                            expresion[i:i+1]=['E','-','T']
                     else:
                         actual[i] = 'T'
                 elif simbolo == 'T':
-                    if i+2 < len(actual) and actual[i+1] in ['*', '/']:
-                        actual[i:i+3] = ['F']
+                    if i+2 < len(expresion) and expresion[i+1] in ['*', '/']:
+                        if expresion[i+1]=='*':
+                            expresion[i:i+3]=['T','*','F']
+                        elif expresion[i+1]=='/':
+                            expresion[i:i+1]=['T','/','F']
                     else:
                         actual[i] = 'F'
                 elif simbolo == 'F':
@@ -52,8 +58,11 @@ def derivacionDer(gramatica, expresion):
             if actual[i] in ['E', 'T', 'F']:  # si es un no terminal deriva
                 # Obtener las producciones para este no terminal
                 if actual[i] == 'E':
-                    if i+2 < len(actual) and actual[i+1] in ['+', '-']:
-                        actual[i:i+3] = ['T']
+                    if i+2 < len(expresion) and expresion[i+1] in ['+', '-']:
+                        if expresion[i+1] == '+':
+                            expresion[i:i+3] = ['E', '+', 'T']
+                        elif expresion[i+1] == '-':
+                            expresion[i:i+3] = ['E', '-', 'T']
                     else:
                         actual[i] = 'T'
                 elif actual[i] == 'T':
@@ -91,9 +100,9 @@ def generar_analisis():
     
     # Generar derivación dependiendo izq-der
     if derivacion_opcion == 1:  # Izquierda
-        derivacion = derivacionIzq(gramatica_texto, expresion.split())
+        derivacion = derivacionIzq(gramatica_texto, list(expresion))
     else:  # Derecha
-        derivacion = derivacionDer(gramatica_texto, expresion.split())
+        derivacion = derivacionDer(gramatica_texto, list(expresion))
 
     #Para mostrar la derivación   
     derivacion_texto = "\n".join(str(p) for p in derivacion)
